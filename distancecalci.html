@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Distance Calculator</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	  <link rel="stylesheet" href="distancecalci.css">
+	  <!-- Hotjar Tracking Code for my site -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:3570468,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+<script>
+    function redirectToPage() {
+    window.location.href = 'threesections.html';
+  }
+</script>
+</head>
+<body>
+  <div class="home" onclick="redirectToPage()">
+    <i class="fas fa-home home-icon"></i>
+    <h5>Home</h5>
+  </div>
+    <div id="container">
+        <h2>Distance Calculator</h2>
+        <div id="map"></div>
+
+        <label for="start">Enter the first postal code:</label>
+        <input type="text" id="start">
+
+        <label for="end">Enter the second postal code:</label>
+        <input type="text" id="end"><br>
+
+        <button onclick="PostalCodetoCityName()" id="calculate">Calculate</button>
+        <button onclick="reset()" id="reset">Reset</button>
+
+          <p id="result">Distance :0 Km</p>
+    </div>
+
+    <script>
+        var map;
+        var markers = [];
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 0, lng: 0},
+                zoom: 2
+            });
+        }
+
+        const apiGeoKey="AIzaSyBqJU47o0ksdpXbcxY3dvu531suKk39vqQ";
+  const apiGeoUrl="https://maps.googleapis.com/maps/api/geocode/json?address=";
+  
+
+
+async function PostalCodetoCityName(postalCode){
+  const responseGeo=await fetch(apiGeoUrl+postalCode+`&key=${apiGeoKey}`);
+  var Geodata = await responseGeo.json();
+
+  console.log(Geodata);
+  if (Geodata.status === "OK") {
+    const city = Geodata.results[0].address_components.find(component =>
+      component.types.includes("locality")
+    );
+    return city ? city.long_name : null;
+  }
+   else {
+    return null;
+  }
+}
+
+const p1 = document.querySelector("#start");
+  const p2 = document.querySelector("#end");
+    const calBtn=document.querySelector('#calculate')
+
+calBtn.addEventListener("click", async () => {
+  const pin1 = p1.value;
+  const pin2 = p2.value;
+  const startName = await PostalCodetoCityName(pin1);
+  const endName=await PostalCodetoCityName(pin2)
+
+  calculateDistance(startName,endName);
+});
+
+        function calculateDistance(startName,endName) {
+            var start = document.getElementById('start').value;
+            var end = document.getElementById('end').value;
+
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ address: start }, function(results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                    var startLatLng = results[0].geometry.location;
+                    addMarker(startLatLng);
+
+                    geocoder.geocode({ address: end }, function(results, status) {
+                        if (status === google.maps.GeocoderStatus.OK) {
+                            var endLatLng = results[0].geometry.location;
+                            addMarker(endLatLng);
+
+                            var distance = google.maps.geometry.spherical.computeDistanceBetween(startLatLng, endLatLng);
+                            const kms =(distance / 1000).toFixed(2);
+                            const miles = (kms * 0.62137119).toFixed(2);
+                            var resultText = 'Distance between '+startName+' and '+endName+' is: ' + kms + ' km or '+miles+" miles";
+                            document.getElementById('result').innerHTML = resultText;
+
+                            // Adjust map bounds to show all markers
+                            var bounds = new google.maps.LatLngBounds();
+                            for (var i = 0; i < markers.length; i++) {
+                                bounds.extend(markers[i].getPosition());
+                            }
+                            map.fitBounds(bounds);
+                        } else {
+                            alert('Geocode was not successful for the following reason: ' + status);
+                        }
+                    });
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+
+        function addMarker(location) {
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+            markers.push(marker);
+        }
+
+        function reset() {
+            for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
+        // Clear the markers array
+        markers = [];
+
+        // Reset input fields and result text
+        document.getElementById('start').value = '';
+        document.getElementById('end').value = '';
+        document.getElementById('result').innerHTML = '0 Km';
+        }
+
+            const resetBtn = document.querySelector('#reset');
+            resetBtn.addEventListener("click", reset);
+    </script>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqJU47o0ksdpXbcxY3dvu531suKk39vqQ&callback=initMap&libraries=geometry"></script>
+</body>
+</html>

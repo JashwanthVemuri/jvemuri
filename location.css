@@ -1,0 +1,83 @@
+
+     body {
+      background-color: #FFFFFF;
+      color: #66FCF1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    .form-container {
+      text-align: center;
+      background-color: #0B0C10;
+      width: 400px;
+      padding: 100px;
+    }
+
+    .form-container input[type="text"] {
+      padding: 10px;
+      font-size: 18px;
+      border: none;
+      border-bottom: 2px solid #66FCF1;
+      outline: none;
+      background-color: #1F2833;
+      color: #66FCF1;
+      margin-bottom: 20px;
+    }
+
+    .form-container input[type="submit"] {
+      padding: 10px 20px;
+      background-color: #66FCF1;
+      color: #0B0C10;
+      border: none;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-container input[type="submit"]:hover {
+      background-color: #45A29E;
+    }
+
+    .result-container {
+      background-color: #0B0C10;
+      padding: 20px;
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .result-container p {
+      margin: 0;
+      margin-bottom: 10px;
+    }
+
+    .result-container p:last-child {
+      margin-bottom: 0;
+    }
+	.home {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 20px;
+  background-color: #FFFFFF;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  outline: none;
+  color: #0B0C10;
+  z-index: 999; /* Ensure the icon is positioned above other elements */
+}
+
+.home-icon {
+  margin-right: 5px;
+}
+
+.home:hover {
+  transform: scale(1.05);
+}

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sign Up</title>
+  <style>
+    /* CSS styles here... */
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #1F2833;
+      color: #66FCF1;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    #signin-wrapper {
+      margin: 50px;
+    }
+
+    .signin-container {
+      width: 350px;
+      margin: 0 auto;
+      padding: 30px;
+      background-color: #0B0C10;
+      text-align: center;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .signin-container h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .signin-container input[type="text"],
+    .signin-container input[type="password"],
+    .signin-container input[type="tel"],
+    .signin-container input[type="number"],
+    .signin-container input[type="email"] {
+      width: 80%;
+      padding: 10px;
+      margin-bottom: 20px;
+      background-color: #0B0C10;
+      color: #66FCF1;
+      font-size: 16px;
+      border: none;
+      border-bottom: 2px solid #66FCF1;
+      outline: none;
+    }
+
+    .signin-container input[type="submit"] {
+      width: 60%;
+      padding: 10px;
+      background-color: #66FCF1;
+      color: #0B0C10;
+      border: none;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .signin-container input[type="submit"]:hover {
+      background-color: #45A29E;
+    }
+  </style>
+  <!-- Hotjar Tracking Code for my site -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:3570468,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+  <script>
+    function validateFullName() {
+      const fullNameInput = document.getElementById("full-name");
+      const fullName = fullNameInput.value.trim();
+      
+      // Regular expression to allow only alphabets and spaces
+      const regex = /^[A-Za-z\s]+$/;
+
+      if (!regex.test(fullName)) {
+        const errorContainer = document.getElementById("full-name-error");
+        errorContainer.innerText = "Enter a full name with alphabets";
+        return false;
+      }
+
+      return true;
+    }
+
+    function validateMobileNumber() {
+      const mobileNumberInput = document.getElementById("mobile-number");
+      const mobileNumber = mobileNumberInput.value.trim();
+
+      // Regular expression to allow only 10 digits
+      const regex = /^\d{10}$/;
+
+      if (!regex.test(mobileNumber)) {
+        const errorContainer = document.getElementById("mobile-number-error");
+        errorContainer.innerText = "Enter a valid 10-digit mobile number.";
+        return false;
+      }
+
+      return true;
+    }
+
+    function validateEmail() {
+      const emailInput = document.getElementById("email");
+      const email = emailInput.value.trim();
+
+      // Regular expression to validate email format (only Gmail)
+      const regex = /^[A-Za-z0-9]+(?:\.[A-Za-z0-9]+)*@gmail\.com$/;
+
+      if (!regex.test(email)) {
+        const errorContainer = document.getElementById("email-error");
+        errorContainer.innerText = "Enter a valid E-mail address.";
+        return false;
+      }
+
+      return true;
+    }
+
+    function validatePassword() {
+      const passwordInput = document.getElementById("password");
+      const password = passwordInput.value.trim();
+
+      // Regular expression to validate password requirements
+      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)(?!.*\s).{8,}$/;
+
+      if (!regex.test(password)) {
+        const errorContainer = document.getElementById("password-error");
+        errorContainer.innerText = "Password must consists of atleast 8 characters, with atleast 1 uppercase letter, 1 lowercase letter, 1 number, and 1 symbol.";
+        return false;
+      }
+
+      return true;
+    }
+
+    function clearErrorMessage(elementId) {
+      const errorContainer = document.getElementById(elementId);
+      errorContainer.innerText = "";
+    }
+
+    function showErrorMessage(elementId, errorMessage) {
+      const errorContainer = document.getElementById(elementId);
+      errorContainer.innerText = errorMessage;
+    }
+
+    function redirectToLogin() {
+      if (validateFullName() && validateMobileNumber() && validateEmail() && validatePassword()) {
+        // Perform any necessary processing here
+
+        // Redirect to the login page
+        window.location.replace("login.html");
+        return false; // Prevent form submission
+      } else {
+        return false; // Prevent form submission if validation fails
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="signin-wrapper">
+    <div class="signin-container">
+      <h2>Sign Up</h2>
+      <form onsubmit="return redirectToLogin()">
+        <input type="text" id="full-name" placeholder="Full Name" required oninput="clearErrorMessage('full-name-error')" onfocus="clearErrorMessage('full-name-error')">
+        <p id="full-name-error" class="error-message"></p>
+        <input type="tel" id="mobile-number" placeholder="Mobile Number" required oninput="clearErrorMessage('mobile-number-error')" onfocus="clearErrorMessage('mobile-number-error')">
+        <p id="mobile-number-error" class="error-message"></p>
+        <input type="email" id="email" placeholder="Email" required oninput="clearErrorMessage('email-error')" onfocus="clearErrorMessage('email-error')">
+        <p id="email-error" class="error-message"></p>
+        <input type="password" id="password" placeholder="Password" required oninput="clearErrorMessage('password-error')" onfocus="clearErrorMessage('password-error')">
+        <p id="password-error" class="error-message"></p>
+        <input type="submit" value="Sign Up">
+      </form>
+    </div>
+  </div>
+</body>
+</html>

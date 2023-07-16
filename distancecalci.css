@@ -1,0 +1,50 @@
+
+      body {
+            background: linear-gradient(135deg, #0B0C10, #1F2833);
+            color: #66FCF1;
+            font-family: Arial, sans-serif;
+        }
+
+        #container {
+            width: 800px;
+            margin: 0 auto;
+        }
+
+        #map {
+            height: 500px;
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+
+        #distance-result {
+            margin-top: 10px;
+        }
+		.home {
+		  position: absolute;
+		  display: flex;
+		  align-items: center;
+		  cursor: pointer;
+		  padding: 4px;
+		  border-radius: 20px;
+		  background-color: #0B0C10;
+		  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+		  border: none;
+		  outline: none;
+		  color: #FFFFFF;
+}
+
+.home:hover {
+  transform: scale(1.05);
+}
+
+.home-icon {
+  margin-right: 5px;
+}

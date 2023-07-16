@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Number Input Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<script>
+    function redirectToPage() {
+    window.location.href = 'threesections.html';
+  }
+  </script>
+  <link rel="stylesheet" href="location.css">
+  <!-- Hotjar Tracking Code for my site -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:3570468,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+</head>
+<body>
+<div class="home" onclick="redirectToPage()">
+    <i class="fas fa-home home-icon"></i>
+    <h5>Home</h5>
+	</div>
+  <div class="form-container">
+    <form id="myForm">
+      <input type="text" class="input" placeholder="Enter a number" id="t1" required>
+      <br>
+      <br>
+      <input type="submit" value="Submit" class="submit" id="submit">
+    </form>
+    <p class="sublocality" id="sub-locality">Sublocality:</p>
+    <p class="locality" id="locality">Locality:</p>
+    <p class="level3" id="level-3">Administrative_Area_Level_3:</p>
+    <p class="level2" id="level-2">Administrative_Area_Level_2:</p>
+    <p class="level1" id="level-1">Administrative_Area_Level_1:</p>
+    <p class="country" id="country">Country:</p>
+    <p class="place_id" id="place-id">Place_id:</p>
+    <p class="latitudes" id="lat">Latitudes:</p>
+    <p class="longitudes" id="lng">Longitudes:</p>
+
+  </div>
+</body>
+<script>
+  const apiGeoKey="AIzaSyBqJU47o0ksdpXbcxY3dvu531suKk39vqQ";
+  const apiGeoUrl="https://maps.googleapis.com/maps/api/geocode/json?address=";
+
+  async function PostalCodetoPlaceId(postalCode) {
+  const responseGeo = await fetch(apiGeoUrl + postalCode + `&key=${apiGeoKey}`);
+  const geodata = await responseGeo.json();
+
+  console.log(geodata);
+  if (geodata.status === "OK") {
+    const placeId = geodata.results[0].place_id;
+   
+    const sublocality = geodata.results[0].address_components.find(component =>
+      component.types.includes("sublocality"));
+      const locality = geodata.results[0].address_components.find(component =>
+      component.types.includes("locality"));
+      const level3 = geodata.results[0].address_components.find(component =>
+      component.types.includes("administrative_area_level_3"));
+      const level2 = geodata.results[0].address_components.find(component =>
+      component.types.includes("administrative_area_level_2"));
+      const level1 = geodata.results[0].address_components.find(component =>
+      component.types.includes("administrative_area_level_1"));
+      const country = geodata.results[0].address_components.find(component =>
+      component.types.includes("country"));
+      const latitudes=geodata.results[0].geometry.location.lat;
+      const longitudes=geodata.results[0].geometry.location.lng;
+
+
+    document.getElementById("place-id").innerHTML = "Place id :"+placeId;
+    document.getElementById("sub-locality").innerHTML = "Sub-locality: " + (sublocality ? sublocality.long_name : "N/A");
+      document.getElementById("locality").innerHTML = "Locality: " + (locality ? locality.long_name : "N/A");
+      document.getElementById("level-3").innerHTML = "Administrative Area Level 3: " + (level3 ? level3.long_name : "N/A");
+      document.getElementById("level-2").innerHTML = "Administrative Area Level 2: " + (level2 ? level2.long_name : "N/A");
+      document.getElementById("level-1").innerHTML = "Administrative Area Level 1: " + (level1 ? level1.long_name : "N/A");
+      document.getElementById("country").innerHTML = "Country: " + (country ? country.long_name : "N/A");
+      document.getElementById("lat").innerHTML = "Latitudes:"+latitudes;
+      document.getElementById("lng").innerHTML = "Longitudes:"+longitudes;
+
+
+  } 
+  else {
+    return null;
+  }
+}
+
+const form = document.getElementById("myForm");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+    const input = document.querySelector(".input");
+    const postalCode = input.value;
+    await PostalCodetoPlaceId(postalCode);
+  });
+
+  
+
+
+</script>
+</html>

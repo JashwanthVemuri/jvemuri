@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Interface</title>
+<link rel="stylesheet" href="Login.css">
+<script src="Login.js"></script>
+<!-- Hotjar Tracking Code for my site -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:3570468,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <form onsubmit="login(event)">
+      <input type="text" id="email" placeholder="E-mail / Phone number" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <input type="submit" value="Log In" >
+    </form>
+    <div class="extra-links">
+      <a href="forgotpassword.html" style="color: blue;">Forgot Password?</a><br><br>
+      Create New Account <a href="Signup.html" style="color: blue;margin-left: 5px;">Sign Up</a>
+    </div>
+  </div>
+</body>
+</html>
